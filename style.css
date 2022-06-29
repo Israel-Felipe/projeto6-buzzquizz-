@@ -10,5 +10,85 @@ body {
     display: flex;
     flex-direction: column;
     font-family: 'Roboto', sans-serif;
+    align-items: center;
+    background-color: #fafafa;
+}
+.topo {
+    width: 100%;
+    height: 70px;
+    background-color: #EC362D;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.topo span {
+    font-size: 37px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+
+.criacaoTela1 {
+    width: 600px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 135px;
+    
+}
+.criacaoTela1 h1 {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.criacaoConteudo {
+    width: 600px;
+    height: 256px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    margin-top: 27px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 85px;
+}
+
+.box-input {
+    width: 564px;
+    height: 46px;
+    border: solid 1px #D1D1D1;
+    border-radius: 5px;
+    margin-bottom: 9px;
+}
+.box-input input {
+    width: 100%;
+    font-size: 19px;
+    outline: none;
+    border: none;
+    resize: none;
+    display: flex;
+    margin-top: 10px;
+}
+.box-input input::placeholder {
+    color: #BABABA;
+    font-style: italic;
+}
+
+.botaoVermelho {
+    width: 370px;
+    height: 54px;
+    border-radius: 15px;
+    background-color: #EC362D;
+    color: #FFF5F4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
