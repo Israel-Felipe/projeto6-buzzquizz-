@@ -13,6 +13,17 @@ body {
     align-items: center;
     background-color: #fafafa;
 }
+
+.israel { /* só pra testar a interação com a pagina inicial, depois eu excluo */
+    width: 500px;
+    height: 200px;
+    background-color: #EC362D;
+    margin-top: 300px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+
 .topo {
     width: 100%;
     height: 70px;
@@ -110,8 +121,8 @@ body {
     font-style: italic;
 }
 
-.botaoVermelho {
-    width: 370px;
+.botaoVermelho370, .botaoVermelho221 {
+    width: 370px; /* muda pra 325px no mobile */
     height: 54px;
     border-radius: 15px;
     background-color: #EC362D;
@@ -123,7 +134,13 @@ body {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     margin-bottom: 60px;
 }
-.botaoVermelho:hover {
+
+.botaoVermelho221 {
+    width: 221px;
+}
+
+
+.botaoVermelho370:hover, .botaoVermelho221:hover {
     background-color: #be160d;
     cursor: pointer;
 }
