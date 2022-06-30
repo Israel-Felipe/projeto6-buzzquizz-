@@ -9,10 +9,10 @@ function criarQuizz1() {
         </div>
 
         <div class="criacaoConteudo">
-            <div class="box-input"><input placeholder="Título do seu quizz"></div>
-            <div class="box-input"><input placeholder="URL da imagem do seu quizz"></div>
-            <div class="box-input"><input placeholder="Quantidade de perguntas do quizz"></div>
-            <div class="box-input"><input placeholder="Quantidade de níveis do quizz"></div>
+            <div class="box-input"><input placeholder="Título do seu quizz (min 20 e max 65 caracteres)"></div>
+            <div class="box-input"><input placeholder="URL da imagem do seu quizz (começar com http)"></div>
+            <div class="box-input"><input placeholder="Quantidade de perguntas do quizz (min 3)"></div>
+            <div class="box-input"><input placeholder="Quantidade de níveis do quizz (min 2)"></div>
         </div>
 
         <div class="botaoVermelho370" onclick="pegarValues1()">Prosseguir pra criar perguntas</div>
@@ -21,29 +21,31 @@ function criarQuizz1() {
    
 }
 
-let tituloQuizz, imgquizz, qtdPerg, qtdniveis  = null;
-let tituloOK = null
+let tituloQuizz, imgQuizz, qtdPerg, qtdNiveis
 
 function pegarValues1 () {
     tituloQuizz = document.querySelector(".criacaoConteudo div:nth-child(1) input").value;
-
-    if ((tituloQuizz === null) || (tituloQuizz.length < 20) || (tituloQuizz.length > 65)) {
-        alert("Por favor, insira um título válido, que tenha entre 20 e 65 caracteres.");
-    } else {
-        tituloOK = tituloQuizz;
-    }
-
-
-    imgquizz = document.querySelector(".criacaoConteudo div:nth-child(2) input").value;
-
+    imgQuizz = document.querySelector(".criacaoConteudo div:nth-child(2) input").value;
     qtdPerg = document.querySelector(".criacaoConteudo div:nth-child(3) input").value;
     qtdniveis = document.querySelector(".criacaoConteudo div:nth-child(4) input").value;
-    criarQuizz2();
+
+
+    if ((tituloQuizz === null) || (tituloQuizz.length < 20) || (tituloQuizz.length > 65) ||
+        (imgQuizz[0] !== "h" && imgQuizz[1] !== "t" && imgQuizz[2] !== "t" && imgQuizz[3] !== "p") ||
+        (qtdPerg < 3) ||
+        (qtdNiveis < 2)) {
+        alert("Escreve certinho aí pf");
+    } 
+    
+    
+    
+    else {
+        criarQuizz2();
+    }
 }
 
 
 function criarQuizz2() {
-    console.log(tituloOK)
     container.innerHTML = `
     <div class="criacaoQuizz">
         <div class="criacaoTitulo">
@@ -86,7 +88,6 @@ function criarQuizz2() {
 }
 
 function criarQuizz3() {
-    console.log(tituloOK)
     container.innerHTML = `
     <div class="criacaoQuizz">
     <div class="criacaoTitulo">
@@ -111,7 +112,6 @@ function criarQuizz3() {
 }
 
 function criarQuizz4() {
-    console.log(tituloOK)
     container.innerHTML = `
     <div class="criacaoQuizz">
     <div class="criacaoTitulo">
@@ -125,77 +125,81 @@ function criarQuizz4() {
     `
 }
 
-criandoQuizz = {
-	title: tituloOK,
-	image: "imgquizz",
-	questions: [
-		{
-			title: "Título da pergunta 1",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		},
-		{
-			title: "Título da pergunta 2",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		},
-		{
-			title: "Título da pergunta 3",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		}
-	],
-	levels: [
-		{
-			title: "Título do nível 1",
-			image: "https://http.cat/411.jpg",
-			text: "Descrição do nível 1",
-			minValue: 0
-		},
-		{
-			title: "Título do nível 2",
-			image: "https://http.cat/412.jpg",
-			text: "Descrição do nível 2",
-			minValue: 50
-		}
-	]
-}
+
+
 
 
 function EnviarQuizz() {
+
+    criandoQuizz = {
+        title: tituloQuizz,
+        image: imgQuizz,
+        questions: [
+            {
+                title: "Título da pergunta 1",
+                color: "#123456",
+                answers: [
+                    {
+                        text: "Texto da resposta 1",
+                        image: "https://http.cat/411.jpg",
+                        isCorrectAnswer: true
+                    },
+                    {
+                        text: "Texto da resposta 2",
+                        image: "https://http.cat/412.jpg",
+                        isCorrectAnswer: false
+                    }
+                ]
+            },
+            {
+                title: "Título da pergunta 2",
+                color: "#123456",
+                answers: [
+                    {
+                        text: "Texto da resposta 1",
+                        image: "https://http.cat/411.jpg",
+                        isCorrectAnswer: true
+                    },
+                    {
+                        text: "Texto da resposta 2",
+                        image: "https://http.cat/412.jpg",
+                        isCorrectAnswer: false
+                    }
+                ]
+            },
+            {
+                title: "Título da pergunta 3",
+                color: "#123456",
+                answers: [
+                    {
+                        text: "Texto da resposta 1",
+                        image: "https://http.cat/411.jpg",
+                        isCorrectAnswer: true
+                    },
+                    {
+                        text: "Texto da resposta 2",
+                        image: "https://http.cat/412.jpg",
+                        isCorrectAnswer: false
+                    }
+                ]
+            }
+        ],
+        levels: [
+            {
+                title: "Título do nível 1",
+                image: "https://http.cat/411.jpg",
+                text: "Descrição do nível 1",
+                minValue: 0
+            },
+            {
+                title: "Título do nível 2",
+                image: "https://http.cat/412.jpg",
+                text: "Descrição do nível 2",
+                minValue: 50
+            }
+        ]
+    }
+    
     const promise = axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", criandoQuizz);
     promise.then(quizzEnviado);
     promise.catch(erroCriacaoQuizz);
