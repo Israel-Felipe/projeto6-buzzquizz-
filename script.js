@@ -94,7 +94,7 @@ function criarQuizz2() {
         document.querySelector(".perguntaAberta").classList.remove("escondido");
         document.querySelector(".perguntaFechada").classList.add("escondido");
 
-        container.innerHTML += `<div class="botaoVermelho370" onclick="criarQuizz3()">Prosseguir pra criar níveis</div>`
+        container.innerHTML += `<div class="botaoVermelho370" onclick="pegarValues2()">Prosseguir pra criar níveis</div>`
 }
 
 
@@ -127,28 +127,72 @@ function editarPergunta(elemento) {
 
 
 
+let arrayPerguntasCriadas = [];
 
+function pegarValues2 () {
+   
+    let divsPerguntas = container.querySelectorAll(".criacaoConteudo");
 
+    for (let i=0; i<divsPerguntas.length; i++) {
+        let tituloPergunta = divsPerguntas[i].querySelector("div:nth-child(1) input").value;
+        let cordeFundoPergunta = divsPerguntas[i].querySelector("div:nth-child(3) input").value;
+        
+        let respostaCorreta = divsPerguntas[i].querySelector("div:nth-child(5) input").value;
+        let URLrespostaCorreta = divsPerguntas[i].querySelector("div:nth-child(6) input").value;
+        
+        let respostaIncorreta1 = divsPerguntas[i].querySelector("div:nth-child(8) input").value;
+        let URLrespostaIncorreta1 = divsPerguntas[i].querySelector("div:nth-child(9) input").value;
 
-/* function pegarValues2 () {
+        let respostaIncorreta2 = divsPerguntas[i].querySelector("div:nth-child(11) input").value;
+        let URLrespostaIncorreta2 = divsPerguntas[i].querySelector("div:nth-child(12) input").value;
 
+        let respostaIncorreta3 = divsPerguntas[i].querySelector("div:nth-child(14) input").value;
+        let URLrespostaIncorreta3 = divsPerguntas[i].querySelector("div:nth-child(15) input").value;
 
-     = document.querySelector(".criacaoConteudo div:nth-child(1) input").value;
-     = document.querySelector(".criacaoConteudo div:nth-child(2) input").value;
-     = document.querySelector(".criacaoConteudo div:nth-child(3) input").value;
-     = document.querySelector(".criacaoConteudo div:nth-child(4) input").value;
+    
+        const pergunta = {
+            title: tituloPergunta,
+            color: cordeFundoPergunta,
+            answers: [
+                {
+                    text: respostaCorreta,
+                    image: URLrespostaCorreta,
+                    isCorrectAnswer: true
+                },
+                {
+                    text: respostaIncorreta1,
+                    image: URLrespostaIncorreta1,
+                    isCorrectAnswer: false
+                },
+                {
+                    text: respostaIncorreta2,
+                    image: URLrespostaIncorreta2,
+                    isCorrectAnswer: false
+                },
+                {
+                    text: respostaIncorreta3,
+                    image: URLrespostaIncorreta3,
+                    isCorrectAnswer: false
+                }
+            ]
+        }
 
-
-    if () {
-        alert("Escreve certinho aí pf");
-    } 
-    else {
-        criarQuizz3();
+        arrayPerguntasCriadas.push(pergunta);
     }
+
+    /*     if () {
+            alert("Escreve certinho aí pf");
+        } 
+        else {
+            criarQuizz3();
+        } */
+    criarQuizz3();
+
 }
- */
+
 
 function criarQuizz3() {
+    console.log(arrayPerguntasCriadas);
     container.innerHTML = `
     <div class="criacaoQuizz">
     <div class="criacaoTitulo">
@@ -195,56 +239,8 @@ function EnviarQuizz() {
     criandoQuizz = {
         title: tituloQuizz,
         image: imgQuizz,
-        questions: [
-            {
-                title: "Título da pergunta 1",
-                color: "#123456",
-                answers: [
-                    {
-                        text: "Texto da resposta 1",
-                        image: "https://http.cat/411.jpg",
-                        isCorrectAnswer: true
-                    },
-                    {
-                        text: "Texto da resposta 2",
-                        image: "https://http.cat/412.jpg",
-                        isCorrectAnswer: false
-                    }
-                ]
-            },
-            {
-                title: "Título da pergunta 2",
-                color: "#123456",
-                answers: [
-                    {
-                        text: "Texto da resposta 1",
-                        image: "https://http.cat/411.jpg",
-                        isCorrectAnswer: true
-                    },
-                    {
-                        text: "Texto da resposta 2",
-                        image: "https://http.cat/412.jpg",
-                        isCorrectAnswer: false
-                    }
-                ]
-            },
-            {
-                title: "Título da pergunta 3",
-                color: "#123456",
-                answers: [
-                    {
-                        text: "Texto da resposta 1",
-                        image: "https://http.cat/411.jpg",
-                        isCorrectAnswer: true
-                    },
-                    {
-                        text: "Texto da resposta 2",
-                        image: "https://http.cat/412.jpg",
-                        isCorrectAnswer: false
-                    }
-                ]
-            }
-        ],
+        questions: arrayPerguntasCriadas,
+
         levels: [
             {
                 title: "Título do nível 1",
@@ -260,7 +256,9 @@ function EnviarQuizz() {
             }
         ]
     }
-    
+        console.log(criandoQuizz);
+
+
     const promise = axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", criandoQuizz);
     promise.then(quizzEnviado);
     promise.catch(erroCriacaoQuizz);
