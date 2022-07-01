@@ -50,7 +50,13 @@ body {
     color: yellow;
 }
 
-
+.container, .perguntaFechada{
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .criacaoQuizz {
     width: 600px;
     height: auto;
@@ -64,11 +70,7 @@ body {
     font-size: 23px;
     font-weight: bold;
 }
-.criacaoQuizz h2 {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 20px 0px;
-}
+
 .criacaoConteudo {
     width: 600px;
     height: auto;
@@ -79,6 +81,11 @@ body {
     display: flex;
     flex-direction: column;
     margin-bottom: 85px;
+}
+.criacaoConteudo h2, .criacaoConteudoMini h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0px;
 }
 .criacaoConteudoMini {
     width: 100%;
@@ -143,4 +150,8 @@ body {
 .botaoVermelho370:hover, .botaoVermelho221:hover {
     background-color: #be160d;
     cursor: pointer;
+}
+
+.escondido {
+    display: none;
 }
