@@ -9,10 +9,10 @@ function criarQuizz1() {
         </div>
 
         <div class="criacaoConteudo">
-            <div class="box-input"><input placeholder="Título do seu quizz (min 20 e max 65 caracteres)"></div>
-            <div class="box-input"><input placeholder="URL da imagem do seu quizz (começar com http)"></div>
-            <div class="box-input"><input placeholder="Quantidade de perguntas do quizz (min 3)"></div>
-            <div class="box-input"><input placeholder="Quantidade de níveis do quizz (min 2)"></div>
+            <div class="box-input"><input type="text" required placeholder="Título do seu quizz (min 20 e max 65 caracteres)"></div>
+            <div class="box-input"><input type="url" required placeholder="URL da imagem do seu quizz (começar com http)"></div>
+            <div class="box-input"><input type="number" required placeholder="Quantidade de perguntas do quizz (min 3)"></div>
+            <div class="box-input"><input type="number" required placeholder="Quantidade de níveis do quizz (min 2)"></div>
         </div>
 
         <div class="botaoVermelho370" onclick="pegarValues1()">Prosseguir pra criar perguntas</div>
@@ -21,7 +21,7 @@ function criarQuizz1() {
    
 }
 
-let tituloQuizz, imgQuizz, qtdPerg, qtdNiveis
+let tituloQuizz, imgQuizz, qtdPerg, qtdNiveis;
 
 function pegarValues1 () {
     tituloQuizz = document.querySelector(".criacaoConteudo div:nth-child(1) input").value;
@@ -30,12 +30,12 @@ function pegarValues1 () {
     qtdNiveis = document.querySelector(".criacaoConteudo div:nth-child(4) input").value;
 
 
-    if ((tituloQuizz === null) || (tituloQuizz.length < 20) || (tituloQuizz.length > 65) ||
-        (imgQuizz[0] !== "h" && imgQuizz[1] !== "t" && imgQuizz[2] !== "t" && imgQuizz[3] !== "p") ||
+    if ((tituloQuizz.length < 20) || (tituloQuizz.length > 65) ||
+        (imgQuizz.substring(0,4) !== "http") ||
         (Number(qtdPerg) < 3) ||
         (Number(qtdNiveis) < 2)) {
-        /* alert("Escreve certinho aí pf"); */
-        criarQuizz2(); /* TIRAR ISSO AQUI DEPOIS! É só pra poder testar mais rapido */
+        alert("Escreve certinho aí pf"); 
+        
     } 
     else {
         criarQuizz2();
@@ -54,26 +54,27 @@ function criarQuizz2() {
     </div>
     `
         for (let i=0; i<qtdPerg; i++) {
+            
         let perguntaModelo = `
         <div class="perguntaAberta escondido">
             <div class="criacaoConteudo">
             <h2>Pergunta ${i+1}</h2>
-                <div class="box-input" ><input placeholder="Texto da pergunta"></div> 
-                <div class="box-input"><input placeholder="Cor de fundo da pergunta"></div>
+                <div class="box-input textoPergunta"><input type="text" required placeholder="Texto da pergunta"></div> 
+                <div class="box-input corPergunta"><input type="color" required placeholder="Cor de fundo da pergunta"></div>
 
                 <h2>Resposta correta</h2>
-                <div class="box-input"><input placeholder="Resposta correta"></div>
-                <div class="box-input"><input placeholder="URL da imagem"></div>
+                <div class="box-input respostaCorreta"><input type="text" required placeholder="Resposta correta"></div>
+                <div class="box-input urlRespostaCorreta"><input type="url" required placeholder="URL da imagem"></div>
 
                 <h2>Respostas incorretas</h2>
-                <div class="box-input"><input placeholder="Resposta incorreta 1"></div>
-                <div class="box-input"><input placeholder="URL da imagem 1"></div>
+                <div class="box-input respostaIncorreta1"><input type="text" required placeholder="Resposta incorreta 1"></div>
+                <div class="box-input urlRespostaIncorreta1"><input type="url" required placeholder="URL da imagem 1"></div>
                 <br>
-                <div class="box-input"><input placeholder="Resposta incorreta 2"></div>
-                <div class="box-input"><input placeholder="URL da imagem 2"></div>
+                <div class="box-input respostaIncorreta2"><input type="text" placeholder="Resposta incorreta 2"></div>
+                <div class="box-input urlRespostaIncorreta2"><input type="url" pattern="https?://.+"placeholder="URL da imagem 2"></div>
                 <br>
-                <div class="box-input"><input placeholder="Resposta incorreta 3"></div>
-                <div class="box-input"><input placeholder="URL da imagem 3"></div>
+                <div class="box-input respostaIncorreta3"><input type="text" placeholder="Resposta incorreta 3"></div>
+                <div class="box-input urlRespostaIncorreta3"><input type="url" placeholder="URL da imagem 3"></div>
             </div>
         </div>`
         let perguntaModeloFechado = `
@@ -132,64 +133,125 @@ let arrayPerguntasCriadas = [];
 function pegarValues2 () {
    
     let divsPerguntas = container.querySelectorAll(".criacaoConteudo");
+    let pergunta = {};
 
     for (let i=0; i<divsPerguntas.length; i++) {
-        let tituloPergunta = divsPerguntas[i].querySelector("div:nth-child(1) input").value;
-        let cordeFundoPergunta = divsPerguntas[i].querySelector("div:nth-child(3) input").value;
         
-        let respostaCorreta = divsPerguntas[i].querySelector("div:nth-child(5) input").value;
-        let URLrespostaCorreta = divsPerguntas[i].querySelector("div:nth-child(6) input").value;
+        let tituloPergunta = divsPerguntas[i].querySelector(".textoPergunta input").value;
+        let cordeFundoPergunta = divsPerguntas[i].querySelector(".corPergunta input").value;
         
-        let respostaIncorreta1 = divsPerguntas[i].querySelector("div:nth-child(8) input").value;
-        let URLrespostaIncorreta1 = divsPerguntas[i].querySelector("div:nth-child(9) input").value;
+        let respostaCorreta = divsPerguntas[i].querySelector(".respostaCorreta input").value;
+        let URLrespostaCorreta = divsPerguntas[i].querySelector(".urlRespostaCorreta input").value;
+        
+        let respostaIncorreta1 = divsPerguntas[i].querySelector(".respostaIncorreta1 input").value;
+        let URLrespostaIncorreta1 = divsPerguntas[i].querySelector(".urlRespostaIncorreta1 input").value;
 
-        let respostaIncorreta2 = divsPerguntas[i].querySelector("div:nth-child(11) input").value;
-        let URLrespostaIncorreta2 = divsPerguntas[i].querySelector("div:nth-child(12) input").value;
+        let respostaIncorreta2 = divsPerguntas[i].querySelector(".respostaIncorreta2 input").value; 
+        let URLrespostaIncorreta2 = divsPerguntas[i].querySelector(".urlRespostaIncorreta2 input").value;
 
-        let respostaIncorreta3 = divsPerguntas[i].querySelector("div:nth-child(14) input").value;
-        let URLrespostaIncorreta3 = divsPerguntas[i].querySelector("div:nth-child(15) input").value;
+        let respostaIncorreta3 = divsPerguntas[i].querySelector(".respostaIncorreta3 input").value; 
+        let URLrespostaIncorreta3 = divsPerguntas[i].querySelector(".urlRespostaIncorreta3 input").value;
 
-    
-        const pergunta = {
-            title: tituloPergunta,
-            color: cordeFundoPergunta,
-            answers: [
-                {
-                    text: respostaCorreta,
-                    image: URLrespostaCorreta,
-                    isCorrectAnswer: true
-                },
-                {
-                    text: respostaIncorreta1,
-                    image: URLrespostaIncorreta1,
-                    isCorrectAnswer: false
-                },
-                {
-                    text: respostaIncorreta2,
-                    image: URLrespostaIncorreta2,
-                    isCorrectAnswer: false
-                },
-                {
-                    text: respostaIncorreta3,
-                    image: URLrespostaIncorreta3,
-                    isCorrectAnswer: false
+        
+        if ((respostaCorreta.length < 1) || (respostaIncorreta1.length < 1) || (tituloPergunta.length < 20) || 
+        (URLrespostaCorreta.substring(0,4) !== "http") || (URLrespostaIncorreta1.substring(0,4) !== "http")) {
+            alert("Em alguma pergunta tem um erro no texto da pergunta - ou na resposta correta - ou na PRIMEIRA resposta incorreta... dá uma conferida aí!");
+            arrayPerguntasCriadas = [];
+            break;
+        } 
+
+        else if ((respostaIncorreta2.length > 0) && (respostaIncorreta3.length > 0)) {
+
+            if ((URLrespostaIncorreta2.substring(0,4) !== "http") || (URLrespostaIncorreta3.substring(0,4) !== "http")) {
+                alert("Os textos das perguntas, as respostas corretas e as primeiras respostas incorretas já estão ok.\n Porém alguma das URLs das imagens para as respostas incorretas dois e três foi escrita errado");
+                arrayPerguntasCriadas = [];
+                break
+            } else {
+                pergunta = {                              /* PERGUNTA COM 4 RESPOSTAS */
+                    title: tituloPergunta,
+                    color: cordeFundoPergunta,
+                    answers: [
+                        {
+                            text: respostaCorreta,
+                            image: URLrespostaCorreta,
+                            isCorrectAnswer: true
+                        },
+                        {
+                            text: respostaIncorreta1,
+                            image: URLrespostaIncorreta1,
+                            isCorrectAnswer: false
+                        },
+                        {
+                            text: respostaIncorreta2,
+                            image: URLrespostaIncorreta2,
+                            isCorrectAnswer: false
+                        },
+                        {
+                            text: respostaIncorreta3,
+                            image: URLrespostaIncorreta3,
+                            isCorrectAnswer: false
+                        }
+                    ]
                 }
-            ]
+                criarQuizz3();
+            }
         }
 
+        else if ((respostaIncorreta2.length > 0) && (respostaIncorreta3.length < 1)) {
+            if ((URLrespostaIncorreta2.substring(0,4) !== "http")) {
+                alert("A URL da imagem da resposta incorreta 2 de alguma pergunta foi escrita errada, confere lá.");
+                arrayPerguntasCriadas = [];
+                break
+            } else {
+                pergunta = {                              /* PERGUNTA COM 3 RESPOSTAS */
+                    title: tituloPergunta,
+                    color: cordeFundoPergunta,
+                    answers: [
+                        {
+                            text: respostaCorreta,
+                            image: URLrespostaCorreta,
+                            isCorrectAnswer: true
+                        },
+                        {
+                            text: respostaIncorreta1,
+                            image: URLrespostaIncorreta1,
+                            isCorrectAnswer: false
+                        },
+                        {
+                            text: respostaIncorreta2,
+                            image: URLrespostaIncorreta2,
+                            isCorrectAnswer: false
+                        }
+                    ]
+                }
+                criarQuizz3()
+            }
+        }
+        else {
+            pergunta = {                              /* PERGUNTA COM 2 RESPOSTAS */
+                    title: tituloPergunta,
+                    color: cordeFundoPergunta,
+                    answers: [
+                        {
+                            text: respostaCorreta,
+                            image: URLrespostaCorreta,
+                            isCorrectAnswer: true
+                        },
+                        {
+                            text: respostaIncorreta1,
+                            image: URLrespostaIncorreta1,
+                            isCorrectAnswer: false
+                        }
+                    ]
+                }
+                criarQuizz3()
+        }
+
+        console.log(pergunta);
         arrayPerguntasCriadas.push(pergunta);
     }
-
-    /*     if () {
-            alert("Escreve certinho aí pf");
-        } 
-        else {
-            criarQuizz3();
-        } */
-    criarQuizz3();
-
 }
-
+    
 
 function criarQuizz3() {
     console.log(arrayPerguntasCriadas);
@@ -205,7 +267,7 @@ function criarQuizz3() {
         <div class="box-input"><input placeholder="% de acerto mínima"></div>
         <div class="box-input"><input placeholder="URL da imagem do nível"></div>
         <div class="box-input"><input placeholder="Descrição do nível"></div>
-    </div>tituloQuizz
+    </div>
     <div class="criacaoConteudoMini">
         <h2>Nível 3</h2>
         <img src="img/editar.svg" alt="">

@@ -115,7 +115,7 @@ body {
     margin-bottom: 9px;
     display: flex;
     align-items: center;
-    padding-left: 25px;
+    padding: 25px;
 }
 .box-input input {
     width: 100%;
