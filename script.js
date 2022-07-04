@@ -1,3 +1,181 @@
+
+let meusQuizzes = [];
+let quizzes;
+let quizzAtual;
+let acertos = 0;
+let tentativas=0;
+const tela2 = document.querySelector('.tela2');
+const todosOsQuizzes = document.querySelector(".todos-os-quizzes .conteudo");
+const conteudoSeusQuizzes = document.querySelector('.seus-quizzes .conteudo');
+
+Renderizar();
+setTimeout(botaoCriarQuizz, 200); 
+
+function Renderizar(){
+    const quizPromise = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
+    quizPromise.then(renderizarTodosOsQuizzes);
+}
+
+function renderizarTodosOsQuizzes(response) {
+    quizzes = response.data
+    todosOsQuizzes.innerHTML = ""
+    conteudoSeusQuizzes.innerHTML = ""
+    for (let i = 0; i < quizzes.length; i++) {
+
+        if(meusQuizzesIds.includes(quizzes[i].id)==true){
+
+            conteudoSeusQuizzes.innerHTML +=
+                `<div class="quizz" id="quizz${i}" onclick="mostrarTela2(this)">
+                    <h2>${quizzes[i].title}</h2>
+                </div>`;
+            document.getElementById("quizz" + i).style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.85)25%, transparent 75%), url("${quizzes[i].image}")`;
+
+        }else if(meusQuizzesIds.includes(quizzes[i].id) !==true){
+
+            todosOsQuizzes.innerHTML +=
+                `<div class="quizz" id="quizz${i}" onclick="mostrarTela2(this)">
+                    <h2>${quizzes[i].title}</h2>
+                </div>`;
+            document.getElementById("quizz" + i).style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.85)25%, transparent 75%), url("${quizzes[i].image}")`;
+
+        }
+
+    }
+};
+
+function mostrarTela2(quizzSelecionado) {
+    quizzAtual=quizzSelecionado
+    let selecionado = quizzSelecionado.id;
+    numeroDoQuizz = selecionado.replace('quizz', '');
+    document.querySelector('.responder-quizz').classList.remove('escondido');
+    document.querySelector('main').classList.add('escondido');
+    tela2.innerHTML =
+        `<div class="quizz-banner">
+            <img src="${quizzes[numeroDoQuizz].image}"/>
+            <h2>${quizzes[numeroDoQuizz].title}</h2>
+        <div>
+    `;
+    for (let i = 0; i < quizzes[numeroDoQuizz].questions.length; i++) {
+        tela2.innerHTML +=
+            `<div class="pergunta" id="pergunta${i}" style="background-color: ${quizzes[numeroDoQuizz].questions[i].color}">
+            <span><h3>${quizzes[numeroDoQuizz].questions[i].title}</h3></span>
+        </div>
+        <div class="conteudo" id="conteudo${i}"> 
+        </div>`;
+
+        for (let j = 0; j < quizzes[numeroDoQuizz].questions[i].answers.length; j++) {
+            document.querySelector(`#conteudo${i}`).innerHTML +=
+                `<div class="perguntas" style="order: ${Math.floor(Math.random() * 11)}" onclick="selecionarResposta(this)" data-id="${quizzes[numeroDoQuizz].questions[i].answers[j].isCorrectAnswer}">
+                <img src="${quizzes[numeroDoQuizz].questions[i].answers[j].image}"/>
+                <p>
+                ${quizzes[numeroDoQuizz].questions[i].answers[j].text}
+                </p>
+            </div>`;
+        }
+    }
+    tela2.innerHTML +="<div class='resultado'></div>";
+}
+
+function selecionarResposta(selecao){
+    let htmlArray=selecao.parentNode.children;
+    let acerto=selecao.getAttribute('data-id');
+    if(acerto==="true" || acerto==="false"){
+        if(acerto==="true"){
+        acertos += 1;
+        selecao.style.filter="opacity(100%)";
+    }
+    for (let i=0;i<htmlArray.length;i++){
+        marcarResposta(htmlArray[i]);
+    }
+    selecao.style.filter="opacity(100%)";
+    tentativas += 1;
+    setTimeout(()=>{window.scrollBy({
+        top: 300,
+        behavior : "smooth"
+    })},2000)
+    setTimeout(resultadoDoQuizz,2000);
+    } 
+}
+
+function marcarResposta(selecao){
+    let acerto=selecao.getAttribute('data-id')
+    if(acerto==='true'){
+        selecao.style.filter="opacity(50%)"
+        selecao.style.color= "green";
+        selecao.setAttribute('data-id','clicked');
+    }else{
+        selecao.style.filter="opacity(50%)"
+        selecao.style.color="red"
+        selecao.setAttribute('data-id','clicked'); 
+    }
+}
+
+function resultadoDoQuizz(){
+    let tela2Resultado=document.querySelector('.tela2 .resultado')
+    if(tentativas===quizzes[numeroDoQuizz].questions.length){
+
+        let percentagem = Math.round((acertos/tentativas)*100);
+        let indiceN;
+        for (let i=0; i < quizzes[numeroDoQuizz].levels.length; i++){
+            if(quizzes[numeroDoQuizz].levels[i].minValue <= percentagem){
+                indiceN=i
+            }
+        }
+
+        tela2Resultado.innerHTML =
+        `<div class="pergunta" id="resultadoQuizz" style="background-color: #EC362D">
+            <span><h3>${percentagem}% de acerto: ${quizzes[numeroDoQuizz].levels[indiceN].title}</h3></span>
+        </div>
+        <div class="conteudo" id="conteudoResultado">
+            <img src="${quizzes[numeroDoQuizz].levels[indiceN].image}"/>
+            <p>${quizzes[numeroDoQuizz].levels[indiceN].text}</p> 
+        </div>
+        <div class="quizzFinalizado">
+            <button id="reiniciarQuizz" onclick="reiniciarQuizz()"><p>Reiniciar quizz</p></button>
+            <h4 onclick="voltarPraHome()">Voltar pra home</h4>
+        </div>`
+        ;
+
+        setTimeout(()=>{window.scrollBy({
+            top: 10000,
+            behavior : "smooth"
+        })},500)
+    }
+}
+
+function reiniciarQuizz() {
+    acertos=0;
+    tentativas=0;
+    window.scrollTo(0, 0);
+    mostrarTela2(quizzAtual);
+}
+function acessarQuizz(){
+    Renderizar();
+    setTimeout(()=> {
+        botaoCriarQuizz();
+        voltarPraHome();
+        mostrarTela2(document.querySelector('.seus-quizzes .conteudo').firstChild);
+    },500)
+}
+function renderizarEVoltarParaAHome(){
+    Renderizar();
+    setTimeout(()=> {
+        botaoCriarQuizz();
+        voltarPraHome();
+    },500)
+}
+function botaoCriarQuizz(){
+    if(conteudoSeusQuizzes.innerHTML != ""){
+        document.querySelector(".seus-quizzes").classList.remove("escondido");
+        document.querySelector(".criar-quizz").classList.add("escondido");
+    }
+}
+
+let meusQuizzesIds = JSON.parse(localStorage.getItem('meusQuizzesIds')) || [];
+let meusQuizzesIdsSerializado;
+
+/* -------------------------------------------------------------------------------------------- */
+
 container = document.querySelector(".container");
 
 /* ------------------------------- INICIA TELA 1 DO QUIZZ - INFORMAÇÕES BÁSICAS */

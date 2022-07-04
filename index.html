@@ -1,26 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-        <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <link rel="stylesheet" href="reset.css" />
-            <link rel="stylesheet" href="style.css" />
-            <title> Buzz Quizz </title>
-</head>
-<body>
-    <div class="topo"><span>BuzzQuizz</span></div>
 
-    <div class="container">
-        <div class="israel" onclick="criarQuizz1()"></div> <!-- MAIS TARDE SUBSTITUIR PELO BOTÃO CRIAR QUIZZ -->
-        
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico" />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>BuzzQuizz</title>
+</head>
+
+<body>
+    <header>
+        <h1 onclick="botaoCriarQuizz()">BuzzQuizz</h1>
+    </header>
+    <main class="container">
+        <section class="criar-quizz">
+            <div class="box-quizz">
+                <p> Você não criou nenhum quizz ainda :( </p>
+                <button onclick="criarQuizz1()">
+                    <h3>Criar Quizz</h3>
+                </button>
+            </div>
+        </section>
+        <section class="seus-quizzes escondido">
+            <span>
+                <h1>Seus Quizzes</h1><ion-icon onclick="criarInfoBasicaQuizz()" name="add-circle"></ion-icon>
+            </span>
+            <div class="conteudo"></div>
+        </section>
+
+        <section class="todos-os-quizzes">
+            <span><h1>Todos os Quizzes</h1></span>
+            <div class="conteudo"></div>
+        </section> 
+    </main>
+    <div class="responder-quizz escondido">
+        <section class="tela2">
+        </section>
     </div>
 
-
-
-    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="script.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    
 </body>
-</html> 
+
+</html>
